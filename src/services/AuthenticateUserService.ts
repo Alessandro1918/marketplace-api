@@ -4,7 +4,7 @@ class AuthenticateUserService {
     async execute(code: string) {
 
         const response = await axios.post(
-            'https://api.mercadolibre.com/oauth/token',
+            "https://api.mercadolibre.com/oauth/token",
             null,
             {
                 headers: {

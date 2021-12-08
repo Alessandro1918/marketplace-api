@@ -9,14 +9,16 @@ class AddItemController {
                 category_id, 
                 price, 
                 currency_id, 
-                available_quantity } = req.body
+                available_quantity,
+                condition,
+                listing_type_id } = req.body
 
         //Instanciate new Service
         const service = new AddItemService()
 
         //Execute
         try {
-            const result = await service.execute(title, category_id, price, currency_id, available_quantity)
+            const result = await service.execute(title, category_id, price, currency_id, available_quantity, condition, listing_type_id)
             return res.json(result)
         } catch (err) {
             return res.status(err.status).json(err.message)
