@@ -4,6 +4,7 @@ import * as db from '../db'
 class AddItemService {
     async execute(
         title: string, 
+        description: string,
         category_id: string, 
         price: number, 
         currency_id: string, 
@@ -14,13 +15,15 @@ class AddItemService {
         //const accessToken = 'APP_USR-8565598613236594-120705-c3ea605372aeb7648af0fc7fcf0ac5db-157958562'
         //const accessToken = 'APP_USR-8565598613236594-120714-f6eb112899b91ebe6b45d00a1e111f01-157958562'      //403 - invalid
         //const accessToken = 'APP_USR-8565598613236594-120718-a1a05220fb37bf8ea9c466d6d0cbb276-157958562'      //401 - expired_token
-        const accessToken = 'APP_USR-8565598613236594-120802-abbac6cfe2896c452100aa6c6ad0026b-157958562'
+        //const accessToken = 'APP_USR-8565598613236594-120802-abbac6cfe2896c452100aa6c6ad0026b-157958562'
+        const accessToken = 'APP_USR-8565598613236594-120819-2c273d4dbb975d5b05e847e75cf0a0e8-157958562'
 
         try {
 
-            //Update ML
+            //Add item to ML
             const response = await axios.post(
                 "https://api.mercadolibre.com/items", 
+                //body:
                 {
                     title: `Anúncio de Teste - Não ofertar - ${title}`,
                     category_id: category_id,
@@ -41,21 +44,37 @@ class AddItemService {
                     }
                 }
             )
-            //console.log(response.data)
-            console.log('Item updated on ML')
 
             //Setup data
-            //const ml_id = 'MLB2105466457'
+            //console.log(response.data)
             const { id, permalink, pictures } = response.data
             //console.log(id, permalink, pictures)
             
-            //Update db 
-            await db.query('INSERT INTO items (title, category_id, price, currency_id, available_quantity, condition, listing_type_id, ml_id, ml_url, pictures) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)', [title, category_id, price, currency_id, available_quantity, condition, listing_type_id, id, permalink, [pictures[0].url]])
-            console.log('Item updated on db')
+            //Add description to ML item - yep, on another POST
+            //https://developers.mercadolivre.com.br/pt_br/descricao-de-produtos
+            await axios.post(
+                `https://api.mercadolibre.com/items/${id}/description`, 
+                //body:
+                {
+                    plain_text: description
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'authorization': `Bearer ${accessToken}`
+                    }
+                }
+            )            
+            console.log('Item added on ML')
+
+            //Add to db 
+            await db.query('INSERT INTO items (title, description, category_id, price, currency_id, available_quantity, condition, listing_type_id, ml_id, ml_url, pictures) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)', [title, description, category_id, price, currency_id, available_quantity, condition, listing_type_id, id, permalink, [pictures[0].url]])
+            console.log('Item added on db')
 
             //Return
             const item = {
                 title, 
+                description,
                 category_id, 
                 price, 
                 currency_id, 

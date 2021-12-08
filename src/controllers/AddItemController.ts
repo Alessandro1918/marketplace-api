@@ -6,6 +6,7 @@ class AddItemController {
 
         //Get data
         const { title, 
+                description,
                 category_id, 
                 price, 
                 currency_id, 
@@ -18,7 +19,7 @@ class AddItemController {
 
         //Execute
         try {
-            const result = await service.execute(title, category_id, price, currency_id, available_quantity, condition, listing_type_id)
+            const result = await service.execute(title, description, category_id, price, currency_id, available_quantity, condition, listing_type_id)
             return res.json(result)
         } catch (err) {
             return res.status(err.status).json(err.message)

@@ -3,9 +3,9 @@ import * as db from '../db'
 class DeleteItemService {
     async execute(ml_id: string) {
         
-        //Update ML - TODO
+        //Delete from ML - TODO
 
-        //Update db
+        //Delete from db
         await db.query('DELETE FROM items WHERE ml_id = $1', [ml_id])
     }
 }

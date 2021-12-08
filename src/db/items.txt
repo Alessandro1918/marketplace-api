@@ -2,6 +2,7 @@ CREATE TABLE public.items
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 ),
     title character varying(50) NOT NULL,
+    description character varying NOT NULL,
     category_id character varying(7) NOT NULL,
     price integer NOT NULL,
     currency_id character varying(3) NOT NULL,
@@ -16,3 +17,7 @@ CREATE TABLE public.items
 
 ALTER TABLE IF EXISTS public.items
     OWNER to kmhafoopeovbuh;
+
+INSERT INTO 
+items (title, description, category_id, price, currency_id, available_quantity, condition, listing_type_id, ml_id, ml_url, pictures) 
+VALUES ('Celular', 'Descrição do item :\nCelular', 'MLB3530', 1000, 'BRL', 1, 'not_specified', 'free', 'MLB98765', 'ml.com/MLB98765', '{picture_1, picture_2}')

@@ -5,17 +5,17 @@ class AuthenticateUserService {
 
         const response = await axios.post(
             "https://api.mercadolibre.com/oauth/token",
-            null,
+            //body:
+            {
+                grant_type: "authorization_code",
+                client_id: process.env.CLIENT_ID,
+                client_secret: process.env.CLIENT_SECRET,
+                code: code,
+                redirect_uri: "http://localhost:3001"
+            },
             {
                 headers: {
                     Accept: "application/json"
-                },
-                params: {
-                    grant_type: "authorization_code",
-                    client_id: process.env.CLIENT_ID,
-                    client_secret: process.env.CLIENT_SECRET,
-                    code: code,
-                    redirect_uri: "http://localhost:3001"
                 }
             }
         )
