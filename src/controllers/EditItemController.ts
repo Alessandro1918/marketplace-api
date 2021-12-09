@@ -6,18 +6,16 @@ class EditItemController {
 
         //Get data
         const ml_id = req.params.ml_id
-        const { title, 
-                category_id, 
-                price, 
-                currency_id, 
-                available_quantity } = req.body
+        const { price } = req.body
+        const { authorization } = req.headers   //'Bearer APP_USR-85...'
+        const accessToken = authorization.split(' ')[1]
 
         //Instanciate new Service
         const service = new EditItemService()
 
         //Execute
         try {
-            const result = await service.execute(ml_id, title, category_id, price, currency_id, available_quantity)
+            const result = await service.execute(accessToken, ml_id, price)
             return res.json(result)
         } catch (err) {
             return res.status(err.status).json(err.message)

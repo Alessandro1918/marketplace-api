@@ -1,21 +1,42 @@
+import axios from 'axios'
 import * as db from '../db'
 
 class EditItemService {
     async execute(
-        ml_id: string,
-        title: string, 
-        category_id: string, 
-        price: number, 
-        currency_id: string, 
-        available_quantity: number) {
+        accessToken: string,
+        ml_id: string, 
+        price: number) {
         
-        //Update ML - TODO
+            try{
 
-        //Update db
-        await db.query('UPDATE items SET title = $2, category_id = $3, price = $4, currency_id = $5, available_quantity = $6 WHERE ml_id = $1', [ml_id, title, category_id, price, currency_id, available_quantity])
-        
-        const item = {ml_id, title, category_id, price, currency_id, available_quantity}
-        return item
+                //Update ML
+                //https://developers.mercadolivre.com.br/pt_br/produto-sincronizacao-de-publicacoes                await axios.put(
+                await axios.put(
+                    `https://api.mercadolibre.com/items/${ml_id}`, 
+                    {
+                        //body:
+                        price: price,
+                    },
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'authorization': `Bearer ${accessToken}`
+                        }
+                    }
+                )
+                console.log('Item updated on ML')
+
+                //Update db
+                await db.query('UPDATE items SET price = $2 WHERE ml_id = $1', [ml_id, price])
+                console.log('Item updated on the db')
+
+                const item = {ml_id, price}
+                return item
+
+            } catch (err) {
+                console.log(err)
+                return err.status// || 500
+            }
     }
 }
 
