@@ -18,6 +18,6 @@ CREATE TABLE public.items
 ALTER TABLE IF EXISTS public.items
     OWNER to kmhafoopeovbuh;
 
-INSERT INTO 
-items (title, description, category_id, price, currency_id, available_quantity, condition, listing_type_id, ml_id, ml_url, pictures) 
-VALUES ('Celular', 'Descrição do item :\nCelular', 'MLB3530', 1000, 'BRL', 1, 'not_specified', 'free', 'MLB98765', 'ml.com/MLB98765', '{picture_1, picture_2}')
+INSERT INTO public.items (id, title, category_id, price, currency_id, available_quantity, condition, listing_type_id, ml_id, ml_url, pictures, description) OVERRIDING SYSTEM VALUE VALUES (1, 'Tomate', 'MLB3530', 10, 'BRL', 1, 'not_specified', 'free', 'MLB2108403152', 'http://produto.mercadolivre.com.br/MLB-2108403152-anuncio-de-teste-no-ofertar-tomate-_JM', '{http://http2.mlstatic.com/resources/frontend/statics/processing-image/1.0.0/O-PT.jpg}', 'Descrição do item:\nTomate');
+INSERT INTO public.items (id, title, category_id, price, currency_id, available_quantity, condition, listing_type_id, ml_id, ml_url, pictures, description) OVERRIDING SYSTEM VALUE VALUES (6, 'Alface', 'MLB3530', 14, 'BRL', 1, 'not_specified', 'free', 'MLB2109029842', 'http://produto.mercadolivre.com.br/MLB-2109029842-anuncio-de-teste-no-ofertar-alface-_JM', '{http://http2.mlstatic.com/resources/frontend/statics/processing-image/1.0.0/O-PT.jpg}', 'Descrição do item:\nAlface');
+INSERT INTO public.items (id, title, category_id, price, currency_id, available_quantity, condition, listing_type_id, ml_id, ml_url, pictures, description) OVERRIDING SYSTEM VALUE VALUES (12, 'Cenoura', 'MLB3530', 14, 'BRL', 1, 'not_specified', 'free', 'MLB2110410687', 'http://produto.mercadolivre.com.br/MLB-2110410687-anuncio-de-teste-no-ofertar-cenoura-_JM', '{http://http2.mlstatic.com/resources/frontend/statics/processing-image/1.0.0/O-PT.jpg}', 'Descrição da Cenoura');
