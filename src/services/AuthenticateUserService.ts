@@ -3,6 +3,10 @@ import axios from 'axios'
 class AuthenticateUserService {
     async execute(code: string) {
 
+        const REDIRECT_URI = process.env.NODE_ENV === 'dev' 
+        ? process.env.REDIRECT_URI_DEV 
+        : process.env.REDIRECT_URI
+
         const response = await axios.post(
             "https://api.mercadolibre.com/oauth/token",
             //body:
@@ -11,7 +15,7 @@ class AuthenticateUserService {
                 client_id: process.env.CLIENT_ID,
                 client_secret: process.env.CLIENT_SECRET,
                 code: code,
-                redirect_uri: "http://localhost:3001"
+                redirect_uri: REDIRECT_URI
             },
             {
                 headers: {
